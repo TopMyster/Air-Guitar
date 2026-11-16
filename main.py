@@ -1,3 +1,5 @@
+from unicodedata import category
+
 import cv2
 import mediapipe as mp
 import time
@@ -6,7 +8,6 @@ BaseOptions = mp.tasks.BaseOptions
 HandLandmarker = mp.tasks.vision.HandLandmarker
 HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
 VisionTaskRunningMode = mp.tasks.vision.RunningMode
-
 
 def main():
     print("Hello Guitar")
@@ -37,6 +38,9 @@ def main():
                 print("Hand is on neck")
             elif binary_result == 2:
                 print("Strumming")
+            if result.hand_landmarks:
+                print(result.handedness[0][0].category_name)
+
             cv2.imshow("Air Guitar", frame)
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
