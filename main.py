@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+import time
 
 BaseOptions = mp.tasks.BaseOptions
 HandLandmarker = mp.tasks.vision.HandLandmarker
@@ -26,6 +27,16 @@ def main():
             if not success:
                 break
             frame = cv2.flip(frame, 1)
+            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
+            timestamp_ms = int(time.time() * 1000)
+            result = landmarker.detect_for_video(mp_image, timestamp_ms)
+            # print(result.hand_landmarks)
+            binary_result = len(result.hand_landmarks)
+            if binary_result == 1:
+                print("Hand is on neck")
+            elif binary_result == 2:
+                print("Strumming")
             cv2.imshow("Air Guitar", frame)
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
