@@ -3,11 +3,15 @@ from unicodedata import category
 import cv2
 import mediapipe as mp
 import time
+from playsound3 import playsound
 
 BaseOptions = mp.tasks.BaseOptions
 HandLandmarker = mp.tasks.vision.HandLandmarker
 HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
 VisionTaskRunningMode = mp.tasks.vision.RunningMode
+
+# def landmarks_to_row:
+
 
 def main():
     print("Hello Guitar")
@@ -36,8 +40,10 @@ def main():
             binary_result = len(result.hand_landmarks)
             if binary_result == 1:
                 print("Hand is on neck")
+
             elif binary_result == 2:
                 print("Strumming")
+                playsound("sheep.mp3", block=False)
             if result.hand_landmarks:
                 print(result.handedness[0][0].category_name)
 
