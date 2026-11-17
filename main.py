@@ -3,6 +3,7 @@ from unicodedata import category
 import cv2
 import mediapipe as mp
 import time
+from numpy.random.mtrand import randint
 from playsound3 import playsound
 
 BaseOptions = mp.tasks.BaseOptions
@@ -42,8 +43,13 @@ def main():
                 print("Hand is on neck")
 
             elif binary_result == 2:
+                randomNum1 = randint(0,10)
+                randomNum2 = randint(0,10)
+                if randomNum1 == randomNum2:
+                    playsound("sheep.mp3", block=False)
+                else:
+                    playsound("guitar.mp3", block=False)
                 print("Strumming")
-                playsound("sheep.mp3", block=False)
             if result.hand_landmarks:
                 print(result.handedness[0][0].category_name)
 
