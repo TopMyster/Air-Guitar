@@ -47,10 +47,8 @@ def main():
             result = landmarker.detect_for_video(mp_image, timestamp_ms)
             hand = result.hand_landmarks
             binary_result = len(result.hand_landmarks)
-            if binary_result == 1:
-                print("Hand is on neck")
 
-            elif binary_result == 2:
+            if binary_result == 2:
                 dx = hand[0][9].x-hand[0][0].x
                 dy = hand[0][9].y-hand[0][0].y
                 size = (dx**2 + dy**2) ** 0.5
@@ -68,7 +66,7 @@ def main():
                 f4y = (hand[0][20].y-hand[0][0].y) / size
 
                 chord = clasf.predict([[f1x,f1y,f2x,f2y,f3x,f3y,f4x,f4y,]])[0]
-
+                print(f"Current Chord: {chord}")
                 now = time.time()
 
                 if (now - last_strum) > cool_down:
@@ -78,6 +76,7 @@ def main():
             cv2.imshow("Air Guitar", frame)
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
+
 
 
     cap.release()
